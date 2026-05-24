@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04  # 👈 这里已经帮你改成了支持的 20.04 系统，保证不卡死
+    runs-on: ubuntu-20.04  # 👈 关键点：已经帮你换成目前支持的 20.04 系统，绝不再卡死
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
@@ -40,7 +40,7 @@ jobs:
         mkdir -p /opt/images/
     - name: Build Firmware
       env:
-        TNAME: MI-3G      # 👈 这里也已经帮你锁定为小米3G
+        TNAME: MI-3G      # 👈 小米路由器 3G 专属代号
         KERNEL: 3.4
       run: |
         cd /opt/rt-n56u/trunk
@@ -68,7 +68,7 @@ jobs:
         sed -i '/CONFIG_FIRMWARE_INCLUDE_WYY/d' .config
         sed -i 's/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=n/CONFIG_FIRMWARE_INCLUDE_OPENSSL_EXE=y/g' .config
         
-        # 精简配置区
+        # 针对小米3G超实用精简配置：砍掉所有大体积插件，仅保留核心科学上网
         echo "CONFIG_FIRMWARE_INCLUDE_MENTOHUST=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SCUTCLIENT=n" >> .config
         echo "CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y" >> .config
